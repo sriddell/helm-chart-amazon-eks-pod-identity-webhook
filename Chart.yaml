@@ -1,0 +1,23 @@
+apiVersion: v2
+name: aws-pod-identity-webhook
+description: A Helm chart for deploying the amazon-eks-pod-identity-webhook to support IRSA
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# Should be incremented to match the appVersion.
+# If using the docker pipeline, this will be done automatically to match the version in
+# package.json
+version: 1.0.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application.
+# If using the docker pipeline, this will be done automatically to match the version in
+# package.json
+appVersion: 1.0.0

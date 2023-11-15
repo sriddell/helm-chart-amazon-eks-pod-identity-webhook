@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-identity-webhook
+  namespace: irsa
+spec:
+  replicas: {{ .Values.replicas | required ".Values.replicas is required."}}
+  selector:
+    matchLabels:
+      app: pod-identity-webhook
+  template:
+    metadata:
+      labels:
+        app: pod-identity-webhook
+    spec:
+      serviceAccountName: pod-identity-webhook
+      containers:
+      - name: pod-identity-webhook
+        image: {{ .Values.image | required ".Values.image is required."}}
+        imagePullPolicy: Always
+        command:
+        - /webhook
+        - --in-cluster=false
+        - --namespace=irsa
+        - --service-name=pod-identity-webhook
+        - --annotation-prefix=eks.amazonaws.com
+        - --token-audience=sts.amazonaws.com
+        - --logtostderr
+        - --tls-cert=/etc/webhook/certs/tls.crt
+        - --tls-key=/etc/webhook/certs/tls.key        
+        volumeMounts:
+        - name: cert
+          mountPath: "/etc/webhook/certs"
+          readOnly: true
+      volumes:
+      - name: cert
+        secret:
+          secretName: pod-identity-webhook-tls

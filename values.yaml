@@ -1,0 +1,8 @@
+image: amazon/amazon-eks-pod-identity-webhook:v0.5.1
+replicas: 3
+
+# These must be replaced by real values using caBundle to self-sign the cert
+#tls:
+#  caBundleBase64: dummy
+#  certBase64: dummy
+#  keyBase64: dummy

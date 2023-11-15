@@ -1,0 +1,21 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: pod-identity-webhook
+webhooks:
+- name: pod-identity-webhook.irsa.svc
+  failurePolicy: Ignore
+  clientConfig:
+    caBundle: {{ .Values.tls.caBundleBase64 | required ".Values.tls.caBundleBase64 is required."}}
+    service:
+      name: pod-identity-webhook
+      namespace: irsa
+      path: "/mutate"
+      port: 443
+  rules:
+  - operations: [ "CREATE" ]
+    apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+  sideEffects: None
+  admissionReviewVersions: ["v1beta1"]
